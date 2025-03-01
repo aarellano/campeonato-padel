@@ -26,6 +26,9 @@ export type Tournament = {
   name: string;
   teams: Team[];
   matches: MatchResult[];
+  startDate: string;
+  endDate: string;
+  status: 'upcoming' | 'active' | 'completed';
   completed: boolean;
   grandFinalPlayed: boolean;
   createdAt: string;

@@ -13,6 +13,8 @@ import AddMatchPage from './pages/AddMatchPage';
 import RankingsPage from './pages/RankingsPage';
 import GrandFinalPage from './pages/GrandFinalPage';
 import ResultsPage from './pages/ResultsPage';
+import TournamentsPage from './pages/TournamentsPage';
+import AddTournamentPage from './pages/AddTournamentPage';
 
 // Temporary placeholder component until we create all pages
 const PlaceholderPage: React.FC<{ title: string }> = ({ title }) => (
@@ -33,6 +35,8 @@ function App() {
       <div className="app-container">
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/tournaments" element={<TournamentsPage />} />
+          <Route path="/tournaments/add" element={<AddTournamentPage />} />
           <Route path="/teams" element={<TeamsPage />} />
           <Route path="/teams/add" element={<AddTeamPage />} />
           <Route path="/matches" element={<MatchesPage />} />

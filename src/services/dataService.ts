@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { Player, Team, Tournament, MatchResult, Match, TeamStats } from '../types';
+import { Player, Team, Tournament, MatchResult, TeamStats, Match } from '../types.ts';
 
 // Flag to determine if we should use mock data or real Amplify API
 let useMockData = true;
@@ -105,7 +105,9 @@ export const createTournament = (name: string): Tournament => {
     completed: false,
     grandFinalPlayed: false,
     createdAt: new Date().toISOString(),
-    status: 'active'
+    status: 'active',
+    startDate: new Date().toISOString(),
+    endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString() // Default end date is 30 days from now
   };
 
   if (useMockData) {
@@ -136,7 +138,40 @@ export const getTournaments = (): Tournament[] => {
 
 export const getCurrentTournament = (): Tournament | undefined => {
   const tournaments = getTournaments();
+
+  // Check if we have a "currentTournamentId" in localStorage
+  const currentTournamentId = localStorage.getItem('currentTournamentId');
+
+  if (currentTournamentId) {
+    const found = tournaments.find(t => t.id === currentTournamentId);
+    if (found) return found;
+  }
+
+  // Fall back to the first tournament if no current is set
   return tournaments.length > 0 ? tournaments[0] : undefined;
+};
+
+export const setCurrentTournament = (tournamentId: string): void => {
+  localStorage.setItem('currentTournamentId', tournamentId);
+};
+
+export const deleteTournament = (tournamentId: string): void => {
+  if (useMockData) {
+    const storedTournaments = getLocalStorageData<Tournament>('tournaments');
+    const updatedTournaments = storedTournaments.filter(t => t.id !== tournamentId);
+
+    // Update localStorage
+    saveLocalStorageData('tournaments', updatedTournaments);
+
+    // If we're deleting the current tournament, clear the current tournament selection
+    const currentTournamentId = localStorage.getItem('currentTournamentId');
+    if (currentTournamentId === tournamentId) {
+      localStorage.removeItem('currentTournamentId');
+    }
+  } else {
+    // TODO: Call Amplify API to delete tournament
+    console.log('Would delete tournament via Amplify API:', tournamentId);
+  }
 };
 
 export const addTeamToTournament = (tournamentId: string, team: Team): void => {
@@ -454,7 +489,8 @@ export const loadMockData = () => {
         grandFinalPlayed: false,
         teams: [],
         matches: [],
-        createdAt: '2023-06-01T10:00:00.000Z'
+        createdAt: '2023-06-01T10:00:00.000Z',
+        completed: false
       }
     ];
     localStorage.setItem('tournaments', JSON.stringify(tournaments));

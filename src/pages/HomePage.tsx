@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaTrophy, FaUsers, FaFutbol, FaTableTennis, FaCrown, FaMedal } from 'react-icons/fa';
+import { FaTrophy, FaUsers, FaFutbol, FaTableTennis, FaCrown, FaMedal, FaCalendarAlt } from 'react-icons/fa';
 import MainLayout from '../components/MainLayout';
 import { getCurrentTournament, getTeams, getMatches } from '../services/dataService';
-import { Tournament, Team } from '../types';
+import { Tournament, Team } from '../types.ts';
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
@@ -41,6 +41,16 @@ const HomePage: React.FC = () => {
         </div>
 
         <div className="menu-grid">
+          <div
+            className="menu-item"
+            onClick={() => navigate('/tournaments')}
+            style={{ backgroundColor: 'var(--color-6)', position: 'relative' }}
+          >
+            <FaCalendarAlt className="menu-icon" />
+            <h3>Torneos</h3>
+            <p>Gestionar torneos</p>
+          </div>
+
           <div
             className="menu-item"
             onClick={() => navigate('/teams')}
@@ -120,7 +130,25 @@ const HomePage: React.FC = () => {
         {/* Tournament info card */}
         {tournament && (
           <div className="card mt-3">
-            <h3 className="mb-2">Torneo Actual</h3>
+            <h3 className="mb-2">
+              Torneo Actual
+              <button
+                onClick={() => navigate('/tournaments')}
+                style={{
+                  backgroundColor: 'transparent',
+                  border: 'none',
+                  color: 'var(--brand-color)',
+                  cursor: 'pointer',
+                  marginLeft: '0.5rem',
+                  fontSize: '0.8rem',
+                  padding: '0.2rem 0.5rem',
+                  borderRadius: '4px',
+                  textDecoration: 'underline'
+                }}
+              >
+                Cambiar
+              </button>
+            </h3>
             <p><strong>{tournament.name}</strong></p>
             {tournament.startDate && tournament.endDate && (
               <p className="text-muted">

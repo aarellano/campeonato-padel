@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { Box, Container, Flex, Heading, IconButton, Stack, Text } from '@chakra-ui/react';
 import { Link, useLocation } from 'react-router-dom';
-import { FaHome, FaUsers, FaFutbol, FaTrophy, FaChartBar } from 'react-icons/fa';
+import { FaHome, FaUsers, FaFutbol, FaTrophy, FaChartBar, FaCalendarAlt } from 'react-icons/fa';
 
 type LayoutProps = {
   children: ReactNode;
@@ -13,11 +13,18 @@ const Layout = ({ children, title }: LayoutProps) => {
 
   const navItems = [
     { icon: FaHome, path: '/', label: 'Inicio' },
+    { icon: FaCalendarAlt, path: '/tournaments', label: 'Torneos' },
     { icon: FaUsers, path: '/teams', label: 'Equipos' },
     { icon: FaFutbol, path: '/matches', label: 'Partidos' },
     { icon: FaChartBar, path: '/rankings', label: 'Ranking' },
     { icon: FaTrophy, path: '/results', label: 'Resultados' },
   ];
+
+  // We'll show only 5 items in the mobile nav to keep it clean
+  // For mobile, we'll prioritize: Home, Teams, Matches, Rankings, Results
+  const mobileNavItems = navItems.filter((item, index) =>
+    index !== 1 // Skip Tournaments in mobile nav
+  );
 
   return (
     <Box minH="100vh" pb="70px" position="relative">
@@ -51,7 +58,7 @@ const Layout = ({ children, title }: LayoutProps) => {
         zIndex={10}
       >
         <Flex justify="space-around" py={2}>
-          {navItems.map((item) => {
+          {mobileNavItems.map((item) => {
             const isActive = location.pathname === item.path;
             return (
               <Stack

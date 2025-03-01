@@ -16,10 +16,10 @@ export interface Tournament {
   name: string;
   teams: Team[];
   matches: MatchResult[];
-  startDate?: string;
-  endDate?: string;
-  status?: 'upcoming' | 'active' | 'completed';
-  completed?: boolean;
+  startDate: string;
+  endDate: string;
+  status: 'upcoming' | 'active' | 'completed';
+  completed: boolean;
   grandFinalPlayed: boolean;
   createdAt: string;
 }
@@ -35,8 +35,10 @@ export interface MatchResult {
   date: string;
 }
 
-// Alias for backward compatibility - both types are used in the app
-export type Match = MatchResult;
+// Export Match as a direct type, not just an alias
+export interface Match extends MatchResult {
+  // Additional fields specific to Match can be added here if needed
+}
 
 export interface TeamStats {
   teamId: string;
