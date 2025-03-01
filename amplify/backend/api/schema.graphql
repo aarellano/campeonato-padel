@@ -1,0 +1,34 @@
+type Player @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String!
+  photoUrl: String
+}
+
+type Team @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String!
+  playerA: Player! @hasOne
+  playerB: Player! @hasOne
+  photoUrl: String
+}
+
+type MatchResult @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  teamA: Team! @hasOne
+  teamB: Team! @hasOne
+  teamAScore: Int!
+  teamBScore: Int!
+  isGrandFinal: Boolean
+  date: AWSDateTime!
+  tournament: Tournament! @belongsTo
+}
+
+type Tournament @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String!
+  teams: [Team!]! @hasMany
+  matches: [MatchResult!]! @hasMany
+  completed: Boolean!
+  grandFinalPlayed: Boolean!
+  createdAt: AWSDateTime!
+}
