@@ -3,22 +3,21 @@ import { useNavigate } from 'react-router-dom';
 import { FaArrowLeft, FaTrophy, FaFlagCheckered, FaCrown, FaFireAlt } from 'react-icons/fa';
 import MainLayout from '../components/MainLayout';
 import { getCurrentTournament, getTopTwoTeams, createMatch } from '../services/dataService';
-import { Team, Tournament } from '../types';
 import ReactConfetti from 'react-confetti';
 
-const GrandFinalPage: React.FC = () => {
+const GrandFinalPage = () => {
   const navigate = useNavigate();
-  const [tournament, setTournament] = useState<Tournament | undefined>(undefined);
-  const [finalists, setFinalists] = useState<[Team | undefined, Team | undefined]>([undefined, undefined]);
+  const [tournament, setTournament] = useState(undefined);
+  const [finalists, setFinalists] = useState([undefined, undefined]);
 
   // Form state
-  const [teamAScore, setTeamAScore] = useState<number>(0);
-  const [teamBScore, setTeamBScore] = useState<number>(0);
+  const [teamAScore, setTeamAScore] = useState(0);
+  const [teamBScore, setTeamBScore] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
-  const [winner, setWinner] = useState<Team | null>(null);
+  const [winner, setWinner] = useState(null);
 
   useEffect(() => {
     // Get current tournament
@@ -43,7 +42,7 @@ const GrandFinalPage: React.FC = () => {
     }
   }, [navigate]);
 
-  const handleScoreChange = (team: 'A' | 'B', value: number) => {
+  const handleScoreChange = (team, value) => {
     const score = Math.max(0, value); // Ensure score is not negative
 
     if (team === 'A') {
@@ -53,7 +52,7 @@ const GrandFinalPage: React.FC = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
@@ -253,49 +252,31 @@ const GrandFinalPage: React.FC = () => {
             padding: '0.5rem'
           }}
         >
-          <FaArrowLeft /> Volver
+          <FaArrowLeft /> Volver al Ranking
         </button>
 
-        <div
-          className="card mb-3 fun-border"
-          style={{ textAlign: 'center', padding: '1rem' }}
-        >
-          <FaTrophy style={{ color: 'gold', fontSize: '2rem', marginBottom: '0.5rem' }} />
-          <h2 className="mb-2">¡La Gran Final!</h2>
-          <p>
-            Es el momento decisivo del torneo. ¡Ingresa el resultado del partido final!
-          </p>
-        </div>
+        <div className="card mb-3">
+          <h2 className="mb-3">La Gran Final</h2>
 
-        {tournament && finalists[0] && finalists[1] ? (
-          <form onSubmit={handleSubmit}>
-            <div className="card mb-3">
-              <div className="mb-2" style={{ textAlign: 'center' }}>
-                <FaFlagCheckered style={{ marginRight: '0.5rem' }} />
-                Enfrentamiento Final
-              </div>
-
-              {error && (
-                <div style={{
-                  padding: '0.5rem',
-                  backgroundColor: '#FFEBEE',
-                  color: '#D32F2F',
-                  borderRadius: '0.5rem',
-                  marginBottom: '1rem'
-                }}>
-                  {error}
-                </div>
-              )}
-
+          {finalists[0] && finalists[1] ? (
+            <>
               <div
                 style={{
                   display: 'flex',
+                  gap: '1rem',
                   alignItems: 'center',
-                  justifyContent: 'space-between',
-                  marginBottom: '1.5rem'
+                  marginBottom: '1.5rem',
+                  flexWrap: 'wrap'
                 }}
               >
-                <div style={{ flex: 1, textAlign: 'center' }}>
+                {/* Team A */}
+                <div
+                  style={{
+                    flex: 1,
+                    textAlign: 'center',
+                    minWidth: '150px'
+                  }}
+                >
                   <div
                     style={{
                       width: '60px',
@@ -328,22 +309,36 @@ const GrandFinalPage: React.FC = () => {
                       </div>
                     )}
                   </div>
-                  <h3 style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>
+                  <h3 style={{ fontWeight: 'bold', marginBottom: '0.25rem' }}>
                     {finalists[0].name}
                   </h3>
+                  <p style={{ fontSize: '0.9rem', color: '#666' }}>
+                    {finalists[0].players[0].name} y {finalists[0].players[1].name}
+                  </p>
                 </div>
 
+                {/* VS */}
                 <div
                   style={{
+                    textAlign: 'center',
+                    padding: '0.5rem 1rem',
+                    backgroundColor: 'var(--brand-color)',
+                    color: 'white',
                     fontWeight: 'bold',
-                    margin: '0 1rem',
-                    fontSize: '1.2rem'
+                    borderRadius: '1rem'
                   }}
                 >
                   VS
                 </div>
 
-                <div style={{ flex: 1, textAlign: 'center' }}>
+                {/* Team B */}
+                <div
+                  style={{
+                    flex: 1,
+                    textAlign: 'center',
+                    minWidth: '150px'
+                  }}
+                >
                   <div
                     style={{
                       width: '60px',
@@ -376,100 +371,132 @@ const GrandFinalPage: React.FC = () => {
                       </div>
                     )}
                   </div>
-                  <h3 style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>
+                  <h3 style={{ fontWeight: 'bold', marginBottom: '0.25rem' }}>
                     {finalists[1].name}
                   </h3>
+                  <p style={{ fontSize: '0.9rem', color: '#666' }}>
+                    {finalists[1].players[0].name} y {finalists[1].players[1].name}
+                  </p>
                 </div>
               </div>
 
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '1rem',
-                  backgroundColor: 'var(--background-color)',
-                  padding: '1rem',
-                  borderRadius: '1rem'
-                }}
-              >
-                <div style={{ textAlign: 'center' }}>
-                  <label htmlFor="teamAScore" className="label">
-                    Resultado
-                  </label>
-                  <input
-                    id="teamAScore"
-                    type="number"
-                    min="0"
-                    className="input"
-                    value={teamAScore}
-                    onChange={(e) => handleScoreChange('A', parseInt(e.target.value) || 0)}
-                    style={{ textAlign: 'center', maxWidth: '80px' }}
-                  />
+              <form onSubmit={handleSubmit}>
+                <div className="mb-3">
+                  <h3 className="mb-2">Ingresar Resultado</h3>
+                  <div
+                    style={{
+                      display: 'flex',
+                      gap: '1rem',
+                      alignItems: 'center',
+                      marginBottom: '1rem',
+                      flexWrap: 'wrap'
+                    }}
+                  >
+                    {/* Team A Score */}
+                    <div style={{ flex: 1, minWidth: '150px' }}>
+                      <label
+                        htmlFor="teamAScore"
+                        style={{
+                          display: 'block',
+                          marginBottom: '0.5rem',
+                          textAlign: 'center',
+                          fontWeight: 'bold'
+                        }}
+                      >
+                        {finalists[0].name}
+                      </label>
+                      <input
+                        id="teamAScore"
+                        type="number"
+                        min="0"
+                        value={teamAScore}
+                        onChange={(e) => handleScoreChange('A', parseInt(e.target.value))}
+                        className="form-input"
+                        style={{
+                          width: '100%',
+                          fontSize: '1.5rem',
+                          textAlign: 'center',
+                          borderRadius: '0.5rem',
+                          border: '2px solid var(--brand-color)'
+                        }}
+                      />
+                    </div>
+
+                    <div
+                      style={{
+                        padding: '0.5rem',
+                        fontWeight: 'bold'
+                      }}
+                    >
+                      -
+                    </div>
+
+                    {/* Team B Score */}
+                    <div style={{ flex: 1, minWidth: '150px' }}>
+                      <label
+                        htmlFor="teamBScore"
+                        style={{
+                          display: 'block',
+                          marginBottom: '0.5rem',
+                          textAlign: 'center',
+                          fontWeight: 'bold'
+                        }}
+                      >
+                        {finalists[1].name}
+                      </label>
+                      <input
+                        id="teamBScore"
+                        type="number"
+                        min="0"
+                        value={teamBScore}
+                        onChange={(e) => handleScoreChange('B', parseInt(e.target.value))}
+                        className="form-input"
+                        style={{
+                          width: '100%',
+                          fontSize: '1.5rem',
+                          textAlign: 'center',
+                          borderRadius: '0.5rem',
+                          border: '2px solid var(--brand-color)'
+                        }}
+                      />
+                    </div>
+                  </div>
                 </div>
 
-                <div style={{
-                  fontWeight: 'bold',
-                  fontSize: '1.5rem',
-                  marginTop: '1.5rem'
-                }}>
-                  -
-                </div>
+                {error && (
+                  <div className="error-message mb-3">
+                    {error}
+                  </div>
+                )}
 
                 <div style={{ textAlign: 'center' }}>
-                  <label htmlFor="teamBScore" className="label">
-                    Resultado
-                  </label>
-                  <input
-                    id="teamBScore"
-                    type="number"
-                    min="0"
-                    className="input"
-                    value={teamBScore}
-                    onChange={(e) => handleScoreChange('B', parseInt(e.target.value) || 0)}
-                    style={{ textAlign: 'center', maxWidth: '80px' }}
-                  />
+                  <button
+                    type="submit"
+                    className="button button-primary"
+                    style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}
+                    disabled={loading}
+                  >
+                    <FaFlagCheckered /> Finalizar Torneo
+                  </button>
                 </div>
-              </div>
+              </form>
+            </>
+          ) : (
+            <div className="empty-state">
+              <p>
+                No hay suficiente información para determinar los finalistas.
+              </p>
+              <p>
+                <button
+                  onClick={() => navigate('/rankings')}
+                  className="button button-primary"
+                >
+                  Ver Ranking
+                </button>
+              </p>
             </div>
-
-            <button
-              type="submit"
-              className="button button-primary w-full"
-              disabled={loading}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '0.5rem',
-                padding: '1rem'
-              }}
-            >
-              {loading ? (
-                'Guardando...'
-              ) : (
-                <>
-                  <FaTrophy /> Finalizar Torneo
-                </>
-              )}
-            </button>
-          </form>
-        ) : (
-          <div className="card text-center" style={{ padding: '1.5rem' }}>
-            <p>
-              No se han determinado los finalistas o no hay un torneo activo.
-            </p>
-            <p style={{ marginTop: '0.5rem', marginBottom: '1rem' }}>
-              Debes completar todos los partidos del torneo para determinar los finalistas.
-            </p>
-            <button
-              onClick={() => navigate('/rankings')}
-              className="button button-primary"
-            >
-              Ver Ranking
-            </button>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </MainLayout>
   );

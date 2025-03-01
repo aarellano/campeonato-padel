@@ -3,11 +3,10 @@ import { Link } from 'react-router-dom';
 import { FaPlus, FaUserFriends } from 'react-icons/fa';
 import MainLayout from '../components/MainLayout';
 import { getTeams, getCurrentTournament } from '../services/dataService';
-import { Team, Tournament } from '../types';
 
-const TeamsPage: React.FC = () => {
-  const [teams, setTeams] = useState<Team[]>([]);
-  const [tournament, setTournament] = useState<Tournament | undefined>(undefined);
+const TeamsPage = () => {
+  const [teams, setTeams] = useState([]);
+  const [tournament, setTournament] = useState(undefined);
 
   useEffect(() => {
     // Get all teams

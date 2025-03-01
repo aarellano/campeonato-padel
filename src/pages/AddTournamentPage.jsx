@@ -3,13 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import SimpleLayout from '../components/SimpleLayout';
 import { createTournament } from '../services/dataService';
 
-const AddTournamentPage: React.FC = () => {
+const AddTournamentPage = () => {
   const [name, setName] = useState('');
   const [startDate, setStartDate] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 

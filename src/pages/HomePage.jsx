@@ -3,13 +3,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FaTrophy, FaUsers, FaFutbol, FaTableTennis, FaCrown, FaMedal, FaCalendarAlt } from 'react-icons/fa';
 import SimpleLayout from '../components/SimpleLayout';
 import { getCurrentTournament, getTeams, getMatches } from '../services/dataService';
-import { Tournament, Team } from '../types.ts';
 
-const HomePage: React.FC = () => {
+const HomePage = () => {
   const navigate = useNavigate();
-  const [tournament, setTournament] = useState<Tournament | undefined>(undefined);
-  const [teams, setTeams] = useState<Team[]>([]);
-  const [matches, setMatches] = useState<any[]>([]);
+  const [tournament, setTournament] = useState(undefined);
+  const [teams, setTeams] = useState([]);
+  const [matches, setMatches] = useState([]);
 
   useEffect(() => {
     // Get current tournament

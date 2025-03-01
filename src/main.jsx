@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
+import App from './App.jsx'
 import './index.css'
 import { configureAmplify, useRealAmplifyBackend } from './services/AmplifyConfig'
 import { toggleDataSource } from './services/dataService'
@@ -16,7 +16,7 @@ if (useRealAmplifyBackend) {
   toggleDataSource(true); // Use mock data
 }
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <App />
   </React.StrictMode>,

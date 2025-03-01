@@ -17,7 +17,7 @@ import TournamentsPage from './pages/TournamentsPage';
 import AddTournamentPage from './pages/AddTournamentPage';
 
 // Temporary placeholder component until we create all pages
-const PlaceholderPage: React.FC<{ title: string }> = ({ title }) => (
+const PlaceholderPage = ({ title }) => (
   <div className="placeholder-page">
     <h1>{title}</h1>
     <p>Esta página está en desarrollo...</p>

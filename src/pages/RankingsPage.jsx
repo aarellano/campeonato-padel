@@ -2,12 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FaTrophy, FaMedal } from 'react-icons/fa';
 import MainLayout from '../components/MainLayout';
-import { getCurrentTournament, calculateTeamStats, getTeamById } from '../services/dataService';
-import { Tournament, TeamStats, Team } from '../types';
+import { getCurrentTournament, calculateTournamentStats, getTeamById } from '../services/dataService';
 
-const RankingsPage: React.FC = () => {
-  const [tournament, setTournament] = useState<Tournament | undefined>(undefined);
-  const [teamStats, setTeamStats] = useState<TeamStats[]>([]);
+const RankingsPage = () => {
+  const [tournament, setTournament] = useState(undefined);
+  const [teamStats, setTeamStats] = useState([]);
 
   useEffect(() => {
     // Get current tournament
@@ -16,18 +15,18 @@ const RankingsPage: React.FC = () => {
 
     if (currentTournament) {
       // Calculate team stats
-      const stats = calculateTeamStats(currentTournament.id);
+      const stats = calculateTournamentStats(currentTournament.id);
       setTeamStats(stats);
     }
   }, []);
 
   // Function to get a team object from its ID
-  const getTeam = (teamId: string): Team | undefined => {
+  const getTeam = (teamId) => {
     return getTeamById(teamId);
   };
 
   // Function to get a medal icon based on rank
-  const getRankBadge = (rank: number) => {
+  const getRankBadge = (rank) => {
     if (rank === 1) {
       return <FaMedal style={{ color: 'gold', fontSize: '1.5rem' }} />;
     } else if (rank === 2) {
@@ -39,7 +38,7 @@ const RankingsPage: React.FC = () => {
   };
 
   // Function to determine if a team is a finalist (top 2)
-  const isFinalist = (rank: number): boolean => {
+  const isFinalist = (rank) => {
     return rank <= 2;
   };
 
@@ -259,18 +258,13 @@ const RankingsPage: React.FC = () => {
                                         display: 'flex',
                                         alignItems: 'center',
                                         justifyContent: 'center',
-                                        fontSize: '0.8rem',
-                                        fontWeight: 'bold',
                                         color: 'var(--brand-color-dark)'
                                       }}>
-                                        {team.name.substring(0, 2).toUpperCase()}
+                                        {team.name.substring(0, 1).toUpperCase()}
                                       </div>
                                     )}
                                   </div>
-
-                                  <span style={{ fontWeight: isFinalist(stat.rank) ? 'bold' : 'normal' }}>
-                                    {team.name}
-                                  </span>
+                                  <span>{team.name}</span>
                                 </div>
                               </td>
                               <td style={{ padding: '0.75rem 0.5rem', textAlign: 'center' }}>
@@ -291,22 +285,18 @@ const RankingsPage: React.FC = () => {
                 </div>
               </>
             ) : (
-              <div className="card text-center" style={{ padding: '1.5rem' }}>
-                <p>No hay suficientes partidos jugados para generar el ranking.</p>
-                <p style={{ marginTop: '0.5rem', marginBottom: '1rem' }}>
-                  Comienza a registrar los resultados de los partidos.
-                </p>
-                <Link to="/matches/add" className="button button-primary">
-                  Registrar Resultados
-                </Link>
+              <div className="empty-state">
+                <p>No hay equipos con estadísticas disponibles.</p>
               </div>
             )}
           </>
         ) : (
-          <div className="card text-center" style={{ padding: '1.5rem' }}>
-            <p className="status-pending">No hay un torneo activo.</p>
-            <p style={{ marginTop: '0.5rem' }}>
-              Crea un torneo para comenzar a registrar partidos y ver el ranking.
+          <div className="empty-state">
+            <p>No hay ningún torneo activo.</p>
+            <p>
+              <Link to="/tournaments" className="link">
+                Ir a Torneos
+              </Link>
             </p>
           </div>
         )}

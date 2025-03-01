@@ -1,13 +1,8 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FaHome, FaUsers, FaFutbol, FaTrophy, FaChartBar } from 'react-icons/fa';
 
-interface MainLayoutProps {
-  children: ReactNode;
-  title?: string;
-}
-
-const MainLayout: React.FC<MainLayoutProps> = ({ children, title }) => {
+const MainLayout = ({ children, title }) => {
   const location = useLocation();
 
   const navItems = [

@@ -1,13 +1,8 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FaHome, FaUsers, FaFutbol, FaTrophy, FaChartBar, FaCalendarAlt } from 'react-icons/fa';
 
-interface SimpleLayoutProps {
-  children: ReactNode;
-  title?: string;
-}
-
-const SimpleLayout: React.FC<SimpleLayoutProps> = ({ children, title }) => {
+const SimpleLayout = ({ children, title }) => {
   const location = useLocation();
 
   const navItems = [
