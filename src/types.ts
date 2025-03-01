@@ -14,29 +14,35 @@ export interface Team {
 export interface Tournament {
   id: string;
   name: string;
+  teams: Team[];
+  matches: MatchResult[];
   startDate?: string;
   endDate?: string;
   status?: 'upcoming' | 'active' | 'completed';
+  completed?: boolean;
   grandFinalPlayed: boolean;
-  teams?: Team[];
-  matches?: Match[];
+  createdAt: string;
 }
 
-export interface Match {
+export interface MatchResult {
   id: string;
-  tournamentId: string;
+  tournamentId?: string;
   teamAId: string;
   teamBId: string;
   teamAScore: number;
   teamBScore: number;
-  date: string;
   isGrandFinal?: boolean;
+  date: string;
 }
+
+// Alias for backward compatibility - both types are used in the app
+export type Match = MatchResult;
 
 export interface TeamStats {
   teamId: string;
-  played: number;
-  wins: number;
-  losses: number;
-  points: number;
+  teamName: string;
+  matchesPlayed: number;
+  matchesWon: number;
+  totalScore: number;
+  rank: number;
 }
