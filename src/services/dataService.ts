@@ -246,32 +246,72 @@ export const getTopTwoTeams = (tournamentId: string): [Team | undefined, Team | 
   return [sortedTeams[0], sortedTeams[1]];
 };
 
-// For development and testing
+/**
+ * Load initial mock data for development
+ */
 export const loadMockData = () => {
-  // Create players
-  const player1 = createPlayer('Juan', 'https://randomuser.me/api/portraits/men/1.jpg');
-  const player2 = createPlayer('Carlos', 'https://randomuser.me/api/portraits/men/2.jpg');
-  const player3 = createPlayer('Maria', 'https://randomuser.me/api/portraits/women/1.jpg');
-  const player4 = createPlayer('Ana', 'https://randomuser.me/api/portraits/women/2.jpg');
-  const player5 = createPlayer('Pedro', 'https://randomuser.me/api/portraits/men/3.jpg');
-  const player6 = createPlayer('Sofia', 'https://randomuser.me/api/portraits/women/3.jpg');
+  // Create some mock teams with players if none exist
+  if (!localStorage.getItem('teams')) {
+    const player1: Player = {
+      id: 'player_1',
+      name: 'Juan Pérez',
+      photoUrl: undefined
+    };
 
-  // Create teams
-  const team1 = createTeam('Los Tigres', player1, player2);
-  const team2 = createTeam('Las Águilas', player3, player4);
-  const team3 = createTeam('Los Leones', player5, player6);
+    const player2: Player = {
+      id: 'player_2',
+      name: 'Ana Gómez',
+      photoUrl: undefined
+    };
 
-  // Create tournament
-  const tournament = createTournament('Torneo de Padel Verano 2023');
+    const player3: Player = {
+      id: 'player_3',
+      name: 'Carlos Ruiz',
+      photoUrl: undefined
+    };
 
-  // Add teams to tournament
-  addTeamToTournament(tournament.id, team1);
-  addTeamToTournament(tournament.id, team2);
-  addTeamToTournament(tournament.id, team3);
+    const player4: Player = {
+      id: 'player_4',
+      name: 'María López',
+      photoUrl: undefined
+    };
 
-  // Create some match results
-  createMatch(tournament.id, team1.id, team2.id, 7, 5);
-  createMatch(tournament.id, team1.id, team3.id, 6, 4);
+    const player5: Player = {
+      id: 'player_5',
+      name: 'Fernando Torres',
+      photoUrl: undefined
+    };
+
+    const player6: Player = {
+      id: 'player_6',
+      name: 'Lucia García',
+      photoUrl: undefined
+    };
+
+    const players = [player1, player2, player3, player4, player5, player6];
+    localStorage.setItem('players', JSON.stringify(players));
+
+    const team1: Team = {
+      id: 'team_1',
+      name: 'Raquetas Furiosas',
+      players: [player1, player2]
+    };
+
+    const team2: Team = {
+      id: 'team_2',
+      name: 'Padel Pros',
+      players: [player3, player4]
+    };
+
+    const team3: Team = {
+      id: 'team_3',
+      name: 'Novatos con Suerte',
+      players: [player5, player6]
+    };
+
+    const teams = [team1, team2, team3];
+    localStorage.setItem('teams', JSON.stringify(teams));
+  }
 
   // Create a mock tournament if none exists
   if (!localStorage.getItem('tournaments')) {
@@ -288,8 +328,58 @@ export const loadMockData = () => {
     localStorage.setItem('tournaments', JSON.stringify(tournaments));
   }
 
+  // Create some mock matches if none exist
+  if (!localStorage.getItem('matches')) {
+    const teams = getTeams();
+
+    if (teams.length >= 3) {
+      const team1 = teams[0];
+      const team2 = teams[1];
+      const team3 = teams[2];
+
+      const tournament = getCurrentTournament();
+
+      if (tournament) {
+        const matches: Match[] = [
+          {
+            id: 'match_1',
+            tournamentId: tournament.id,
+            teamAId: team1.id,
+            teamBId: team2.id,
+            teamAScore: 7,
+            teamBScore: 5,
+            date: '2023-06-10T14:00:00.000Z',
+            isGrandFinal: false
+          },
+          {
+            id: 'match_2',
+            tournamentId: tournament.id,
+            teamAId: team1.id,
+            teamBId: team3.id,
+            teamAScore: 6,
+            teamBScore: 4,
+            date: '2023-06-15T16:30:00.000Z',
+            isGrandFinal: false
+          },
+          {
+            id: 'match_3',
+            tournamentId: tournament.id,
+            teamAId: team2.id,
+            teamBId: team3.id,
+            teamAScore: 7,
+            teamBScore: 6,
+            date: '2023-06-20T18:00:00.000Z',
+            isGrandFinal: false
+          }
+        ];
+
+        localStorage.setItem('matches', JSON.stringify(matches));
+      }
+    }
+  }
+
   return {
-    tournament,
-    teams: [team1, team2, team3]
+    teams: getTeams(),
+    tournaments: getTournaments()
   };
 };

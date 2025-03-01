@@ -1,7 +1,6 @@
 export interface Player {
   id: string;
   name: string;
-  level: 'beginner' | 'intermediate' | 'advanced';
   photoUrl?: string;
 }
 
@@ -15,21 +14,12 @@ export interface Team {
 export interface Tournament {
   id: string;
   name: string;
-  startDate: string;
-  endDate: string;
-  status: 'upcoming' | 'active' | 'completed';
+  startDate?: string;
+  endDate?: string;
+  status?: 'upcoming' | 'active' | 'completed';
   grandFinalPlayed: boolean;
-}
-
-export interface MatchResult {
-  id: string;
-  tournamentId: string;
-  teamAId: string;
-  teamBId: string;
-  teamAScore: number;
-  teamBScore: number;
-  date: string;
-  isGrandFinal?: boolean;
+  teams?: Team[];
+  matches?: Match[];
 }
 
 export interface Match {
@@ -41,4 +31,12 @@ export interface Match {
   teamBScore: number;
   date: string;
   isGrandFinal?: boolean;
+}
+
+export interface TeamStats {
+  teamId: string;
+  played: number;
+  wins: number;
+  losses: number;
+  points: number;
 }

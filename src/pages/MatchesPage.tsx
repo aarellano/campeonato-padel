@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 import { FaPlus, FaTrophy, FaExclamationTriangle } from 'react-icons/fa';
 import MainLayout from '../components/MainLayout';
 import { getMatches, getCurrentTournament, getTeamById, getMissingMatches, getTopTwoTeams } from '../services/dataService';
-import { MatchResult, Team, Tournament } from '../types';
+import { Match, Team, Tournament } from '../types';
 
 const MatchesPage: React.FC = () => {
-  const [matches, setMatches] = useState<MatchResult[]>([]);
+  const [matches, setMatches] = useState<Match[]>([]);
   const [tournament, setTournament] = useState<Tournament | undefined>(undefined);
   const [missingMatchups, setMissingMatchups] = useState<{teamA: Team, teamB: Team}[]>([]);
   const [finalists, setFinalists] = useState<[Team | undefined, Team | undefined]>([undefined, undefined]);
@@ -36,11 +36,11 @@ const MatchesPage: React.FC = () => {
     return team ? team.name : 'Equipo desconocido';
   };
 
-  const getMatchStatusClass = (match: MatchResult): string => {
+  const getMatchStatusClass = (match: Match): string => {
     return match.isGrandFinal ? 'status-completed' : 'status-in-progress';
   };
 
-  const renderMatchResult = (match: MatchResult) => {
+  const renderMatchResult = (match: Match) => {
     const teamAName = getTeamName(match.teamAId);
     const teamBName = getTeamName(match.teamBId);
 

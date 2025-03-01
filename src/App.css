@@ -1,13 +1,25 @@
 /* Global Styles */
 :root {
-  --brand-color: #80cc23;
-  --brand-color-dark: #63a117;
-  --brand-color-light: #e3fbb5;
-  --highlight-color: #e6a023;
+  --brand-color: #5755d9;
+  --brand-color-dark: #3f3fa9;
+  --brand-color-light: #e0e0ff;
+  --highlight-color: #ff6b6b;
   --highlight-color-light: #ffd688;
-  --background-color: #f5fee5;
+  --background-color: #f7f8fc;
   --text-color: #333;
+  --text-color-light: #666;
   --shadow-color: rgba(0,0,0,0.1);
+  --border-color: #ddd;
+  --success-color: #2ecc71;
+  --warning-color: #f1c40f;
+  --danger-color: #e74c3c;
+
+  /* Menu colors */
+  --color-1: #53c1de;  /* light blue */
+  --color-2: #61b33b;  /* green */
+  --color-3: #ff9f43;  /* orange */
+  --color-4: #a55eea;  /* purple */
+  --color-5: #ff6b6b;  /* red */
 }
 
 * {
@@ -254,4 +266,102 @@ h2 {
 .rank-3 {
   background-color: #cd7f32; /* bronze */
   color: white;
+}
+
+/* Menu Grid */
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.menu-item {
+  background-color: white;
+  border-radius: 1rem;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  color: white;
+}
+
+.menu-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.menu-icon {
+  font-size: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.menu-item h3 {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+}
+
+.menu-item p {
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+/* Stats */
+.stat {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.text-muted {
+  color: var(--text-color-light);
+  font-size: 0.9rem;
+}
+
+/* Quotes */
+.fun-quote {
+  font-style: italic;
+  padding: 0.75rem;
+  background-color: var(--brand-color-light);
+  border-left: 4px solid var(--brand-color);
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+
+/* Placeholder page styles */
+.placeholder-page {
+  text-align: center;
+  padding: 3rem 1rem;
+}
+
+.placeholder-page h1 {
+  font-size: 2rem;
+  color: var(--brand-color);
+  margin-bottom: 1rem;
+}
+
+/* Responsive table */
+.responsive-table {
+  overflow-x: auto;
+  width: 100%;
+}
+
+.responsive-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.responsive-table th,
+.responsive-table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.responsive-table th {
+  background-color: var(--background-color);
+  font-weight: bold;
+}
+
+.responsive-table tr:hover {
+  background-color: rgba(0, 0, 0, 0.02);
 }
