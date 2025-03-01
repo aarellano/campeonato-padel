@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaTrophy, FaUsers, FaFutbol, FaTableTennis, FaCrown, FaMedal, FaCalendarAlt } from 'react-icons/fa';
-import MainLayout from '../components/MainLayout';
+import SimpleLayout from '../components/SimpleLayout';
 import { getCurrentTournament, getTeams, getMatches } from '../services/dataService';
 import { Tournament, Team } from '../types.ts';
 
@@ -28,7 +28,7 @@ const HomePage: React.FC = () => {
   }, []);
 
   return (
-    <MainLayout title="Campeonato de Padel">
+    <SimpleLayout title="Campeonato de Padel 🎾">
       <div style={{ padding: '1rem' }}>
         <div className="card mb-3">
           <h2 className="mb-3">¡Bienvenidos al Campeonato!</h2>
@@ -54,7 +54,7 @@ const HomePage: React.FC = () => {
           <div
             className="menu-item"
             onClick={() => navigate('/teams')}
-            style={{ backgroundColor: 'var(--color-1)' }}
+            style={{ backgroundColor: 'var(--card-bg)' }}
           >
             <FaUsers className="menu-icon" />
             <h3>Equipos</h3>
@@ -64,7 +64,7 @@ const HomePage: React.FC = () => {
           <div
             className="menu-item"
             onClick={() => navigate('/matches')}
-            style={{ backgroundColor: 'var(--color-2)' }}
+            style={{ backgroundColor: 'var(--card-bg)' }}
           >
             <FaTableTennis className="menu-icon" />
             <h3>Partidos</h3>
@@ -74,7 +74,7 @@ const HomePage: React.FC = () => {
           <div
             className="menu-item"
             onClick={() => navigate('/rankings')}
-            style={{ backgroundColor: 'var(--color-3)' }}
+            style={{ backgroundColor: 'var(--card-bg)' }}
           >
             <FaTrophy className="menu-icon" />
             <h3>Ranking</h3>
@@ -85,7 +85,7 @@ const HomePage: React.FC = () => {
             className="menu-item"
             onClick={() => navigate('/grand-final')}
             style={{
-              backgroundColor: 'var(--color-4)',
+              backgroundColor: 'var(--card-bg)',
               position: 'relative',
               overflow: 'hidden'
             }}
@@ -116,7 +116,7 @@ const HomePage: React.FC = () => {
               className="menu-item"
               onClick={() => navigate('/results')}
               style={{
-                backgroundColor: 'var(--color-5)',
+                backgroundColor: 'var(--card-bg)',
                 border: '2px solid gold'
               }}
             >
@@ -177,7 +177,7 @@ const HomePage: React.FC = () => {
                 <p
                   className="stat"
                   style={{
-                    color: tournament.grandFinalPlayed ? 'green' : 'var(--brand-color)'
+                    color: tournament.grandFinalPlayed ? 'var(--success-color)' : 'var(--brand-color)'
                   }}
                 >
                   {tournament.grandFinalPlayed ? 'Completado' : 'En curso'}
@@ -187,7 +187,7 @@ const HomePage: React.FC = () => {
           </div>
         )}
       </div>
-    </MainLayout>
+    </SimpleLayout>
   );
 };
 

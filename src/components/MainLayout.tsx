@@ -23,17 +23,26 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, title }) => {
       {title && (
         <div
           style={{
-            padding: '1rem',
+            padding: '1.2rem',
             backgroundColor: 'var(--brand-color)',
             color: 'white',
             textAlign: 'center',
             position: 'sticky',
             top: 0,
             zIndex: 10,
-            boxShadow: '0 2px 4px var(--shadow-color)'
+            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
+            borderBottom: '2px solid var(--brand-color-dark)'
           }}
         >
-          <h1>{title}</h1>
+          <h1 style={{
+            margin: 0,
+            fontSize: '1.8rem',
+            fontFamily: 'Space Mono, monospace',
+            letterSpacing: '1px',
+            textTransform: 'uppercase'
+          }}>
+            {title}
+          </h1>
         </div>
       )}
 
@@ -52,7 +61,11 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, title }) => {
               className={`nav-item ${isActive ? 'active' : ''}`}
             >
               <item.icon size={24} />
-              <span>{item.label}</span>
+              <span style={{
+                marginTop: '0.3rem',
+                fontSize: '0.7rem',
+                transition: 'all 0.3s'
+              }}>{item.label}</span>
             </Link>
           );
         })}
