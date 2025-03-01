@@ -5,7 +5,6 @@ import { createTournament } from '../services/dataService';
 
 const AddTournamentPage = () => {
   const [name, setName] = useState('');
-  const [startDate, setStartDate] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
 
@@ -73,47 +72,6 @@ const AddTournamentPage = () => {
               }}
               required
             />
-          </div>
-
-          <div style={{ marginBottom: '2rem' }}>
-            <label
-              htmlFor="startDate"
-              style={{
-                display: 'block',
-                marginBottom: '0.5rem',
-                fontWeight: 'bold',
-                color: 'var(--text-color)',
-                fontFamily: 'Space Mono, monospace',
-                textTransform: 'uppercase',
-                letterSpacing: '1px',
-                fontSize: '0.9rem'
-              }}
-            >
-              Fecha de Inicio
-            </label>
-            <input
-              id="startDate"
-              type="date"
-              value={startDate}
-              onChange={(e) => setStartDate(e.target.value)}
-              style={{
-                width: '100%',
-                padding: '0.75rem',
-                borderRadius: '4px',
-                border: '2px solid var(--text-color-light)',
-                backgroundColor: 'white',
-                fontSize: '1rem',
-                transition: 'all 0.3s',
-                outline: 'none'
-              }}
-            />
-            <small style={{
-              display: 'block',
-              marginTop: '0.25rem',
-              color: 'var(--text-color-muted)'
-            }}>
-              Si no se selecciona, se usará la fecha actual
-            </small>
           </div>
 
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>

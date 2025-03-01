@@ -1,12 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { FaPlus, FaUserFriends } from 'react-icons/fa';
+import React, { useEffect, useState, useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { FaPlus, FaEdit, FaTrash, FaUserFriends } from 'react-icons/fa';
 import MainLayout from '../components/MainLayout';
-import { getTeams, getCurrentTournament } from '../services/dataService';
+import { getTeams, getCurrentTournament, deleteTeam } from '../services/dataService';
 
 const TeamsPage = () => {
   const [teams, setTeams] = useState([]);
   const [tournament, setTournament] = useState(undefined);
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
+  const [teamToDelete, setTeamToDelete] = useState(null);
+  const cancelRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Get all teams
@@ -17,6 +21,32 @@ const TeamsPage = () => {
     const currentTournament = getCurrentTournament();
     setTournament(currentTournament);
   }, []);
+
+  const handleEditTeam = (id) => {
+    navigate(`/teams/edit/${id}`);
+  };
+
+  const handleDeleteTeam = async () => {
+    if (teamToDelete) {
+      try {
+        const result = deleteTeam(teamToDelete);
+        if (result) {
+          setTeams(teams.filter(t => t.id !== teamToDelete));
+          setShowConfirmDelete(false);
+          setTeamToDelete(null);
+        } else {
+          alert('Error al eliminar el equipo. Inténtalo de nuevo.');
+        }
+      } catch (error) {
+        console.error('Error deleting team:', error);
+      }
+    }
+  };
+
+  const confirmDelete = (id) => {
+    setTeamToDelete(id);
+    setShowConfirmDelete(true);
+  };
 
   return (
     <MainLayout title="Equipos">
@@ -104,6 +134,21 @@ const TeamsPage = () => {
                     {team.players[0].name} y {team.players[1].name}
                   </p>
                 </div>
+
+                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                  <button
+                    className="button button-outline"
+                    onClick={() => handleEditTeam(team.id)}
+                  >
+                    <FaEdit style={{ marginRight: '0.25rem' }} /> Editar
+                  </button>
+                  <button
+                    className="button button-danger-outline"
+                    onClick={() => confirmDelete(team.id)}
+                  >
+                    <FaTrash style={{ marginRight: '0.25rem' }} /> Eliminar
+                  </button>
+                </div>
               </div>
             ))}
           </div>
@@ -126,6 +171,34 @@ const TeamsPage = () => {
             <p style={{ marginTop: '0.5rem' }}>
               {tournament.teams.length} equipos participan en este torneo
             </p>
+          </div>
+        )}
+
+        {/* Delete Confirmation Dialog */}
+        {showConfirmDelete && (
+          <div className="modal-overlay">
+            <div className="modal-content">
+              <h3>Confirmar Eliminación</h3>
+              <p>
+                ¿Estás seguro que deseas eliminar este equipo?
+                Esta acción no se puede deshacer.
+              </p>
+              <div className="modal-actions">
+                <button
+                  ref={cancelRef}
+                  className="button button-outline"
+                  onClick={() => setShowConfirmDelete(false)}
+                >
+                  Cancelar
+                </button>
+                <button
+                  className="button button-danger"
+                  onClick={handleDeleteTeam}
+                >
+                  Eliminar
+                </button>
+              </div>
+            </div>
           </div>
         )}
       </div>

@@ -1,13 +1,14 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { useEffect } from 'react';
-import { loadMockData } from './services/dataService';
+// import { useEffect } from 'react';
+// import { loadMockData } from './services/dataService';
 import './App.css';
 
 // Import pages
 import HomePage from './pages/HomePage';
 import TeamsPage from './pages/TeamsPage';
 import AddTeamPage from './pages/AddTeamPage';
+import EditTeamPage from './pages/EditTeamPage';
 import MatchesPage from './pages/MatchesPage';
 import AddMatchPage from './pages/AddMatchPage';
 import RankingsPage from './pages/RankingsPage';
@@ -25,10 +26,10 @@ const PlaceholderPage = ({ title }) => (
 );
 
 function App() {
-  // Initialize mock data on mount
-  useEffect(() => {
-    loadMockData();
-  }, []);
+  // Remove mock data initialization
+  // useEffect(() => {
+  //   loadMockData();
+  // }, []);
 
   return (
     <Router>
@@ -39,6 +40,7 @@ function App() {
           <Route path="/tournaments/add" element={<AddTournamentPage />} />
           <Route path="/teams" element={<TeamsPage />} />
           <Route path="/teams/add" element={<AddTeamPage />} />
+          <Route path="/teams/edit/:id" element={<EditTeamPage />} />
           <Route path="/matches" element={<MatchesPage />} />
           <Route path="/matches/add" element={<AddMatchPage />} />
           <Route path="/rankings" element={<RankingsPage />} />

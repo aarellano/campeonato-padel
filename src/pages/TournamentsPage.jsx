@@ -50,10 +50,14 @@ const TournamentsPage = () => {
   const handleDeleteTournament = async () => {
     if (tournamentToDelete) {
       try {
-        deleteTournament(tournamentToDelete);
-        setTournaments(tournaments.filter(t => t.id !== tournamentToDelete));
-        setShowConfirmDelete(false);
-        setTournamentToDelete(null);
+        const result = deleteTournament(tournamentToDelete);
+        if (result) {
+          setTournaments(tournaments.filter(t => t.id !== tournamentToDelete));
+          setShowConfirmDelete(false);
+          setTournamentToDelete(null);
+        } else {
+          alert('Error al eliminar el torneo. Inténtalo de nuevo.');
+        }
       } catch (error) {
         console.error('Error deleting tournament:', error);
       }
@@ -115,7 +119,11 @@ const TournamentsPage = () => {
                 </div>
               </div>
               <div className="tournament-card-actions">
-                <button className="button button-outline" style={{ marginRight: '0.5rem' }}>
+                <button
+                  className="button button-outline"
+                  style={{ marginRight: '0.5rem' }}
+                  onClick={() => handleEditTournament(tournament.id)}
+                >
                   <FaEdit style={{ marginRight: '0.25rem' }} /> Editar
                 </button>
                 <button
@@ -136,7 +144,7 @@ const TournamentsPage = () => {
           <div className="modal-content">
             <h3>Confirmar Eliminación</h3>
             <p>
-              ¿Estás seguro que deseas eliminar el torneo "{tournamentToDelete?.name}"?
+              ¿Estás seguro que deseas eliminar este torneo?
               Esta acción no se puede deshacer.
             </p>
             <div className="modal-actions">

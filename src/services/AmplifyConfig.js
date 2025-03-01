@@ -1,6 +1,6 @@
 // Flag to enable/disable using real Amplify backend
 // Set to false for local development with mock data
-export const useRealAmplifyBackend = false;
+export const useRealAmplifyBackend = true;
 
 // Amplify configuration settings - can be modified for different environments
 const awsConfig = {
